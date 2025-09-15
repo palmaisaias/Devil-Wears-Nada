@@ -5,6 +5,7 @@ import React, { useEffect, useRef, useState } from "react";
 // - Custom controls (play/pause, seek, time, volume, speed, fullscreen, PiP)
 // - Saves last URL, volume, and speed
 // - No external deps; Tailwind only
+// - Dispatches "start-movie" on play to pause background music
 
 export default function Movie() {
   const videoRef = useRef(null);
@@ -49,35 +50,50 @@ export default function Movie() {
   async function togglePlay() {
     const v = videoRef.current; if (!v) return;
     if (v.paused) {
-      try { await v.play(); setPlaying(true); } catch (_) {}
-    } else { v.pause(); setPlaying(false); }
+      try { 
+        await v.play(); 
+        setPlaying(true); 
+        // tell MusicController to stop background audio
+        window.dispatchEvent(new Event("start-movie"));
+      } catch (_) {}
+    } else { 
+      v.pause(); 
+      setPlaying(false); 
+    }
   }
+
   function onLoadedMeta() {
     const v = videoRef.current; if (!v) return;
     setDuration(v.duration || 0);
   }
+
   function onTimeUpdate() {
     const v = videoRef.current; if (!v) return;
     setCurrent(v.currentTime || 0);
   }
+
   function seekPct(p) {
     const v = videoRef.current; if (!v || !duration) return;
     const t = clamp((p / 100) * duration, 0, duration);
     v.currentTime = t; setCurrent(t);
   }
+
   function nudge(sec) {
     const v = videoRef.current; if (!v) return;
     v.currentTime = clamp(v.currentTime + sec, 0, duration || v.duration || 0);
   }
+
   function toggleMute() {
     const v = videoRef.current; if (!v) return;
     v.muted = !v.muted;
   }
+
   async function toggleFS() {
     const el = shellRef.current; if (!el) return;
     if (document.fullscreenElement) await document.exitFullscreen();
     else await el.requestFullscreen().catch(() => {});
   }
+
   async function togglePiP() {
     const v = videoRef.current; if (!v || !document || !("pictureInPictureEnabled" in document)) return;
     try {
@@ -142,7 +158,11 @@ export default function Movie() {
                 onLoadedMetadata={onLoadedMeta}
                 onTimeUpdate={onTimeUpdate}
                 onError={onError}
-                onPlay={() => setPlaying(true)}
+                onPlay={() => { 
+                  setPlaying(true); 
+                  // signal background music to stop immediately
+                  window.dispatchEvent(new Event("start-movie")); 
+                }}
                 onPause={() => setPlaying(false)}
                 controls={false}
                 preload="metadata"
