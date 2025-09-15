@@ -1,90 +1,84 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600&display=swap");
 
-:root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
+/* ------- Base ------- */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { width: 100%; min-height: 100%; height: auto; }
+body {
+  margin: 0;
+  background: #572020;       /* your dark backdrop */
+  color: #e5e7eb;            /* soft gray text */
+  font-family: "Bricolage Grotesque", Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+/* if any lib tries to lock scrolling */
+body { overflow-y: auto !important; }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
+/* ------- App layout (replaces .container from App.css) ------- */
+#root { min-height: 100%; }
+.container {
+  max-width: 72rem;          /* ≈ Tailwind max-w-6xl */
+  margin: 0 auto;
+  padding: 2.5rem 1rem;      /* py-10 px-4 */
+  display: flex;
+  flex-direction: column;    /* vertical stack */
+  gap: 4rem;                 /* space-y-16 */
 }
-a:hover {
-  color: #535bf2;
-}
-
-html,
-body {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 100%;
-  min-height: 100vh;
-}
-
-#root {
-  width: 100%;
-  height: 100%;
-  min-height: 100vh;
+.section {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  border: 1px solid #eee;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.03);
 }
 
-/* Override any conflicting styles */
+/* ------- Flipbook / “page” styles you had ------- */
+.page {
+  background: linear-gradient(145deg, #ffffff 0%, #f5f5f5 100%);
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  color: #111827; /* slate-900 for contrast on white page */
+}
 .page-content {
+  width: 100%;
+  height: 100%;
   display: flex !important;
   flex-direction: column !important;
-  height: 100% !important;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  text-align: center;
 }
+.cover {
+  background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+  color: #fff;
+  font-weight: 700;
+}
+/* stPageFlip tends to clip — keep this */
+.stf__parent { overflow: visible !important; }
 
-.stf__parent {
-  overflow: visible !important;
-}
+/* ------- Pokémon bits (kept) ------- */
+.pokemon-logo { width: 80%; max-width: 300px; margin-bottom: 20px; filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3)); }
+.pokemon-container { display: flex; flex-direction: column; align-items: center; gap: 10px; width: 100%; padding: 0 5px; }
+.pokemon-container img { width: 70%; max-height: 200px; object-fit: contain; transition: transform .3s ease; }
+.pokemon-container img:hover { transform: scale(1.05); }
+.pokemon-info { width: 100%; }
+.pokemon-name { font-size: clamp(1rem, 3vw, 1.8rem); font-weight: 600; color: #2c3e50; margin-bottom: 5px; }
+.pokemon-number { font-size: clamp(0.7rem, 2vw, 1rem); color: #7f8c8d; margin-bottom: 10px; }
+.pokemon-type { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: clamp(.6rem,1.5vw,.9rem); font-weight: 500; color: #fff; margin: 0 3px 5px; }
+.type-electric { background-color: #f1c40f; }
+.type-ground   { background-color: #e67e22; }
+.type-poison   { background-color: #9b59b6; }
+.type-fire     { background-color: #e74c3c; }
+.type-flying   { background-color: #3498db; }
+.type-water    { background-color: #2980b9; }
+.type-dark     { background-color: #34495e; }
+.type-fighting { background-color: #d35400; }
+.type-steel    { background-color: #7f8c8d; }
+.type-rock     { background-color: #9a7b4f; }
+.pokemon-description { font-size: 14px; color: #34495e; margin-top: 8px; line-height: 1.4; }
+.demoPage { background: #fff; color: #000; }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
-}
+/* ------- Minimal button reset (Tailwind handles the rest) ------- */
+button { font-family: inherit; }

@@ -162,3 +162,16 @@ html {
   background: #fff;
   color: #000;
 }
+
+/* src/App.css */
+.container {
+  display: flex;
+  flex-direction: column; /* forces vertical stacking */
+  gap: 24px;             /* optional spacing */
+}
+.section {
+  margin-top: 24px;
+  padding: 16px;
+  border: 1px solid #eee;
+  border-radius: 12px;
+}

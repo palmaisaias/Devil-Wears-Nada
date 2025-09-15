@@ -1,13 +1,15 @@
-import React from 'react';
-import Book from './components/Book';
-import './App.css';
+// src/App.jsx
+import React from 'react'
+import Book from './components/Book'
+import Recipes from './components/Recipes'
+import Movie from './components/Movie'
 
-function App() {
+export default function App() {
   return (
-    <div className="container">
-        <Book />
-    </div>
-  );
+    <main className="container">
+      <Book />
+      <Recipes />
+      <Movie />
+    </main>
+  )
 }
-
-export default App;

@@ -1,6 +1,6 @@
 export default {
   plugins: {
     '@tailwindcss/postcss': {},
-    autoprefixer: {},
+    // autoprefixer: {}, // optional — Vite’s Lightning CSS already handles prefixes
   },
-} 
+}

@@ -48,6 +48,8 @@ function Book() {
     }
   ];
 
+  const totalPages = 10
+
   return (
     <HTMLFlipBook 
       width={370} 
@@ -57,40 +59,32 @@ function Book() {
       showCover={true}
       size='fixed'
     >
-      <div className="page" style={{ background: 'transparent' }}>
-        <div className="page-content cover">
+      <div className="page" style={{ background: '#ffe4e6' }}>
+        <div className="page-content cover" style={{ background: '#ffe4e6' }}>
           <img 
-            src="https://upload.wikimedia.org/wikipedia/commons/9/98/International_Pok%C3%A9mon_logo.svg" 
+            src="/images/cover.png" 
             alt="Pokémon Logo" 
             className="pokemon-logo"
           />
         </div>
       </div>
 
-      {pokemonData.map((pokemon) => (
-        <div className="page" key={pokemon.id}>
-          <div className="page-content">
-            <div className="pokemon-container">
-              <img 
-                src={`https://www.pokemon.com/static-assets/content-assets/cms2/img/pokedex/full/${pokemon.id}.png`} 
-                alt={pokemon.name} 
+      
+
+      {Array.from({ length: totalPages }, (_, i) => {
+        const pageNumber = i + 1
+        return (
+          <div className="page" key={pageNumber} style={{ background: 'black' }}>
+            <div className="page-content" style={{ background: 'lightgrey' }}>
+              <img
+                src={`/images/page${pageNumber}.jpg`}
+                alt={`Page ${pageNumber}`}
+                className="w-full h-auto"
               />
-              <div className="pokemon-info">
-                <h2 className="pokemon-name">{pokemon.name}</h2>
-                <p className="pokemon-number">#{pokemon.id}</p>
-                <div>
-                  {pokemon.types.map((type) => (
-                    <span key={type} className={`pokemon-type type-${type.toLowerCase()}`}>
-                      {type}
-                    </span>
-                  ))}
-                </div>
-                <p className="pokemon-description">{pokemon.description}</p>
-              </div>
             </div>
           </div>
-        </div>
-      ))}
+        )
+      })}
     </HTMLFlipBook>
   );
 }
